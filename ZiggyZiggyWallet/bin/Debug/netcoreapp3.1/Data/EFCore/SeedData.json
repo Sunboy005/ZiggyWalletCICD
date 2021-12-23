@@ -1,0 +1,127 @@
+[
+  {
+    "lastName": "Alagbe",
+    "firstName": "Amos",
+    "email": "amos@alagbe.com",
+    "phone": "+234 (910) 437-3351",
+    "createdAt": "2018-03-28T08:43:03 -01:00",
+    "updatedAt": "2018-03-28T08:43:03 -01:00",
+    "roleId": "731cabf6-6cfb-4d9c-8134-7724f24ff0bf"
+  },
+  {
+    "lastName": "Israel",
+    "firstName": "Iyonsi",
+    "email": "johnstonnichols@viocular.com",
+    "phone": "+234 (980) 445-3580",
+    "createdAt": "2018-03-28T08:43:03 -01:00",
+    "updatedAt": "2018-03-28T08:43:03 -01:00",
+    "roleId": "76a82a75-e2f3-4855-98a9-6f0806c2977b",
+    "wallet": [
+      {
+        "name": "Upkeep",
+        "Address": "47895c7e-8e6b-47ae-81ee-abde65e19471",
+        "isMain": true,
+        "currency": [
+          {
+            "id": "3a1cbd8c-0b08-41de-b3f2-c6a8176878e1",
+            "name": "Dollar",
+            "isMain": true,
+            "balance": 2540.53
+          },
+          {
+            "id": "82960b4d-5f42-4090-99d2-c1f50d65dc68",
+            "name": "Naira",
+            "isMain": false,
+            "balance": 2698.63
+          },
+          {
+            "id": "a510b732-e239-484c-8764-84e182d1cf9f",
+            "name": "Euro",
+            "isMain": false,
+            "balance": 2758.10
+          }
+        ]
+      },
+      {
+        "name": "Health",
+        "Address": "47895c7e-8e6b-47ae-81ee-abde65e19471",
+        "isMain": true,
+        "currency": [
+          {
+            "id": "3a1cbd8c-0b08-41de-b3f2-c6a8176878e1",
+            "name": "Dollar",
+            "isMain": true,
+            "balance": 2540.53
+          },
+          {
+            "id": "82960b4d-5f42-4090-99d2-c1f50d65dc68",
+            "name": "Naira",
+            "isMain": false,
+            "balance": 2698.63
+          },
+          {
+            "id": "a510b732-e239-484c-8764-84e182d1cf9f",
+            "name": "Euro",
+            "isMain": false,
+            "balance": 2758.10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "lastName": "Kamilu",
+    "firstName": "Adebayo",
+    "email": "jonnichols@viocular.com",
+    "phone": "+234 (980) 445-3580",
+    "createdAt": "2018-03-28T08:43:03 -01:00",
+    "updatedAt": "2018-03-28T08:43:03 -01:00",
+    "roleId": "b426af65-6002-47d3-ae93-6b39ea0c6ef7",
+    "wallet": [
+      {
+        "name": "Upkeep",
+        "Address": "47895c7e-8e6b-47ae-81ee-abde65e19471",
+        "isMain": true,
+        "currency": [
+          {
+            "id": "3a1cbd8c-0b08-41de-b3f2-c6a8176878e1",
+            "name": "Dollar",
+            "isMain": true,
+            "balance": 2540.53
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "lastName": "Williamson",
+    "firstName": "Taofeek",
+    "isActive": true,
+    "email": "cherrywilliamson@viocular.com",
+    "phone": "+234 (815) 489-3825",
+    "createdAt": "2018-03-28T08:43:03 -01:00",
+    "updatedAt": "2018-03-28T08:43:03 -01:00",
+    "roleId": "76a82a75-e2f3-4855-98a9-6f0806c2977b",
+    "wallet": [
+      {
+        "name": "Upkeep",
+        "Address": "0ef4090f-229b-49cf-96ee-88a77f956787",
+        "isMain": true,
+        "currency": [
+          {
+            "id": "3a1cbd8c-0b08-41de-b3f2-c6a8176878e1",
+            "name": "Dollar",
+            "isMain": true,
+            "balance": 333.45
+          },
+          {
+            "id": "82960b4d-5f42-4090-99d2-c1f50d65dc68",
+            "name": "Naira",
+            "isMain": false,
+            "balance": 1872.66
+          }
+        ]
+      }
+    ]
+  }
+]
