@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZiggyZiggyWallet.DTOs.Users
+namespace ZiggyZiggyWallet.DTOs.Systems
 {
     public class Response<T>
     {

@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Data.EFCore;
 using ZiggyZiggyWallet.Data.Repository.Interfaces;
-using ZiggyZiggyWallet.DTOs;
-using ZiggyZiggyWallet.Models;
 
 namespace ZiggyZiggyWallet.Data.Repository.Implementations
 {

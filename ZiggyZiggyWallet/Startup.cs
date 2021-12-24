@@ -2,20 +2,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ZiggyZiggyWallet.Data.EFCore;
+using ZiggyZiggyWallet.Data.Repository.Implementations;
+using ZiggyZiggyWallet.Data.Repository.Interfaces;
 using ZiggyZiggyWallet.Models;
+using ZiggyZiggyWallet.Services.Implementations;
+using ZiggyZiggyWallet.Services.Interfaces;
 
 namespace ZiggyZiggyWallet
 {
@@ -38,30 +36,57 @@ namespace ZiggyZiggyWallet
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(option=>
+            }).AddJwtBearer(option =>
             {
-                var param= new TokenValidationParameters();
+                var param = new TokenValidationParameters();
                 param.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecurityKey"]));
                 param.ValidateIssuer = false;
                 param.ValidateAudience = false;
                 option.TokenValidationParameters = param;
             });
-             //Swagger Gen
+            //Swagger Gen
             services.AddSwaggerGen(config =>
-            config.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo
+            config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
             {
                 Title = "ZiggyZiggyWallet",
                 Version = "v1",
                 Description = "First of All Intro"
 
             }));
-
             //DBContext
             services.AddDbContextPool<ZiggyDBContext>(
                options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
-               );
-               //AppRole
-            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ZiggyDBContext>();
+            );
+
+           
+            //AppRole/Sign In Defination
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                //options.Password.RequireDigit = true;
+                //options.Password.RequiredLength = 8;
+                //options.Password.RequireLowercase = false;
+                //options.Password.RequireNonAlphanumeric = false;
+                //options.Password.RequireUppercase = false;
+                //options.Password.RequiredUniqueChars = 0;
+
+                options.SignIn.RequireConfirmedEmail = true;
+
+            }).AddEntityFrameworkStores<ZiggyDBContext>()
+            .AddDefaultTokenProviders();
+
+            //AppRepositories
+            services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<ITransactionsRepository, TransactionRepository>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+
+            //AppServices
+            services.AddScoped<IJWTServices, JWTServices>();
+            services.AddScoped<IAuthService, AuthService>();
+
+
+            //Other Services
+            services.AddCors();
+
 
         }
 
