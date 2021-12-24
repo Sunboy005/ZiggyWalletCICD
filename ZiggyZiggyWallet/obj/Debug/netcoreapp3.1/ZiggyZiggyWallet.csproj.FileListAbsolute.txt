@@ -1,3 +1,9 @@
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.AssemblyInfo.cs
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\ZiggyZiggyWallet.exe
@@ -6,6 +12,8 @@ C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bi
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\ZiggyZiggyWallet.runtimeconfig.dev.json
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\ZiggyZiggyWallet.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\ZiggyZiggyWallet.pdb
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -31,6 +39,7 @@ C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bi
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
@@ -68,6 +77,7 @@ C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bi
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\System.Text.Json.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
@@ -129,16 +139,9 @@ C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bi
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.csproj.AssemblyReference.cache
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.AssemblyInfoInputs.cache
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.AssemblyInfo.cs
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.csproj.CoreCompileInputs.cache
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\staticwebassets\ZiggyZiggyWallet.StaticWebAssets.Manifest.cache
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.RazorTargetAssemblyInfo.cache
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.csproj.CopyComplete
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.dll
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.pdb
 C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\obj\Debug\netcoreapp3.1\ZiggyZiggyWallet.genruntimeconfig.cache
-C:\Users\hp\Desktop\Ewallet Project\ZiggyZiggyWalletSolution\ZiggyZiggyWallet\bin\Debug\netcoreapp3.1\AutoMapper.dll

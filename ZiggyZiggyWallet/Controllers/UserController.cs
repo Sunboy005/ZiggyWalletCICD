@@ -60,7 +60,7 @@ namespace ZiggyZiggyWallet.Controllers
                 return BadRequest(Util.BuildResponse<string>(false, "Failed to add user!", ModelState, null));
             }
 
-            var res = await _userMgr.AddToRoleAsync(user, "Regular");
+            var res = await _userMgr.AddToRoleAsync(user, "Elite");
 
             if (!res.Succeeded)
             {
