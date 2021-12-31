@@ -60,7 +60,7 @@ namespace ZiggyZiggyWallet.Controllers
                 return BadRequest(Util.BuildResponse<string>(false, "Failed to add user!", ModelState, null));
             }
 
-            var res = await _userMgr.AddToRoleAsync(user, "Elite");
+            var res = await _userMgr.AddToRoleAsync(user, model.Role);
 
             if (!res.Succeeded)
             {
@@ -154,7 +154,7 @@ namespace ZiggyZiggyWallet.Controllers
         }
 
         [HttpGet("get-user")]
-        public async Task<IActionResult> GetUser(string email)
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
             // map data from db to dto to reshape it and remove null fields
             var UserToReturn = new UserToReturn();
@@ -181,6 +181,34 @@ namespace ZiggyZiggyWallet.Controllers
             }
 
         }
+
+        //public async Task<IActionResult> GetUserByID(string userId)
+        //    {
+        //        // map data from db to dto to reshape it and remove null fields
+        //        var UserToReturn = new UserToReturn();
+        //        //var user = await _userService.GetUser(email);
+        //        var user = await _userMgr.FindByEmailAsync(userId);
+        //        if (user != null)
+        //        {
+        //            UserToReturn = new UserToReturn
+        //            {
+        //                Id = user.Id,
+        //                LastName = user.LastName,
+        //                FirstName = user.FirstName,
+        //                Email = user.Email,
+        //                PhoneNumber = user.PhoneNumber
+        //            };
+
+        //            var res = Util.BuildResponse(true, "User details", null, UserToReturn);
+        //            return Ok(res);
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError("Notfound", $"There was no record found for user with User Id {user.Id}");
+        //            return NotFound(Util.BuildResponse<List<UserToReturn>>(false, "No result found!" , ModelState, null));
+        //        }
+
+        //    }
 
     }
 }

@@ -35,7 +35,7 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
             return await SaveChanges();
         }
 
-        public async Task<List<Transaction>> GetTransactionsByWallet(string address)
+        public async Task<List<Tranx>> GetTransactionsByWallet(string address)
         {
             return  await _contex.Transactions.Where(x => x.WalletId == address).ToListAsync();
         }

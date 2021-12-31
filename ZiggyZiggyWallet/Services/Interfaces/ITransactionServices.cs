@@ -5,8 +5,8 @@ namespace ZiggyZiggyWallet.Services.Interfaces
     public interface ITransactionServices
     {
 
-        Task<Transaction> SendMoney(string currency, string walletAdderess, float amount);
-        Task<Transaction> Withdrawal(float amount, string bank, string accountNo);
-        Task<Transaction> TopUp(float amount, string currency, string walletAddress);
+        Task<Tranx> SendMoney(string currency, string walletAdderess, float amount);
+        Task<Tranx> Withdrawal(float amount, string bank, string accountNo);
+        Task<Tranx> TopUp(float amount, string currency, string walletAddress);
     }
 }

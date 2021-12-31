@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.DTOs.Currency;
+using ZiggyZiggyWallet.Models;
 
 namespace ZiggyZiggyWallet.Data.Repository.Interfaces
 {
     public interface ICurrencyRepository : ICRUDRepository
     {
-        Task<List<CurrencyToReturn>> GetCurrencyList(string address);
+        Task<Currency> GetCurrencyfromId(string currencyId);
+
+        Task<List<Currency>> GetCurrencyList();
     }
 }

@@ -77,22 +77,27 @@ namespace ZiggyZiggyWallet
             .AddDefaultTokenProviders();
 
             //AppRepositories
+             services.AddScoped<ITransactionsRepository, TransactionRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
-            services.AddScoped<ITransactionsRepository, TransactionRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 
             //AppServices
             services.AddScoped<IJWTServices, JWTServices>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IWalletServices, WalletServices>();
+            services.AddScoped<ICurrencyServices, CurrencyServices>();
 
 
             //Other Services
             services.AddCors();
             services.AddAutoMapper();
+
+            //Seeder Class
+            services.AddTransient<SeederClass>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeederClass seeder)
         {
             if (env.IsDevelopment())
             {
@@ -101,12 +106,18 @@ namespace ZiggyZiggyWallet
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            seeder.SeedMe().Wait();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

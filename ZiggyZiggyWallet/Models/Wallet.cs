@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZiggyZiggyWallet.Models
 {
-    public class WalletToReturn:BaseEntity
+    public class Wallet:BaseEntity
     {
         [Required]
         [MinLength(5, ErrorMessage = "Wallet Name should not be below 5 letters")]
@@ -20,7 +20,7 @@ namespace ZiggyZiggyWallet.Models
         public string AppUserId { get; set; }
         public List<WalletCurrency> WalletCurrency { get; set; }
 
-        public WalletToReturn()
+        public Wallet()
         {
             WalletCurrency = new List<WalletCurrency>();
         }

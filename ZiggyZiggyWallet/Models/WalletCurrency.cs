@@ -6,7 +6,7 @@
         public string CurrencyId { get; set; }
         public bool IsMain { get; set; } = false;
         public float Balance { get; set; } = 0.00F;
-        public WalletToReturn Wallet { get; set; }
+        public Wallet Wallet { get; set; }
         public Currency Currency { get; set; }
     }
 }

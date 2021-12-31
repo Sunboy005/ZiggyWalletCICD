@@ -19,13 +19,13 @@ namespace ZiggyZiggyWallet.Models
 
             public byte[] PasswordSalt { get; set; }
 
-            public List<WalletToReturn> Wallets { get; set; }//1 to many
+            public List<Wallet> Wallets { get; set; }//1 to many
 
         // Noob User ===> Only one wallet, and one currency
         // Elite User ===> Multiple wallets, and each of this wallet, can have multiple currencies
         public AppUser()
             {
-                Wallets = new List<WalletToReturn>();
+                Wallets = new List<Wallet>();
             }
         }
 }

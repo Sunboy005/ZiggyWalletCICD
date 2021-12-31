@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ZiggyZiggyWallet.Models
 {
-    public class Currency:BaseEntity
+    public class Currency : BaseEntity
     {
         public Currency()
         {
@@ -13,6 +13,9 @@ namespace ZiggyZiggyWallet.Models
         [Required]
         [MinLength(3, ErrorMessage = "Currency Name should be more than 3 letters")]
         public string Name { get; set; }
+        [Required]
+        [MaxLength(3, ErrorMessage = "Currency Name should be more than 3 letters")]
+        public string Abbrevation { get; set; }
 
         [Required]
         [MinLength(2, ErrorMessage = "ShortCode should not be below 2 letters")]

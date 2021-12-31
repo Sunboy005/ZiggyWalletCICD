@@ -2,7 +2,7 @@
 
 namespace ZiggyZiggyWallet.Models
 {
-    public class Transaction:BaseEntity
+    public class Tranx:BaseEntity
     {
         [Required]
         public float Amount { get; set; } = 0.00F;
@@ -21,7 +21,7 @@ namespace ZiggyZiggyWallet.Models
         [MinLength(16, ErrorMessage = "Reciepient Wallet should not be below 6 letters")]
         public string RecipientWalletId { get; set; }
 
-        public WalletToReturn Wallets { get; set; }
+        public string WalletsId { get; set; }
 
         public string WalletId { get; set; }
 

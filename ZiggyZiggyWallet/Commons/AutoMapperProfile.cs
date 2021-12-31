@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ZiggyZiggyWallet.DTOs;
 using ZiggyZiggyWallet.DTOs.Users;
 using ZiggyZiggyWallet.Models;
 
@@ -18,7 +19,12 @@ namespace ZiggyZiggyWallet.Commons
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(u => u.Phone));
             //.ForMember(dest => dest.Address, x => x.MapFrom(s => new Address { Street = s.Street, State = s.State, Country = s.Country }));
 
-            //CreateMap<PhotoUploadDto, Photo>();
+            CreateMap<WalletToAdd, Wallet>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(u => u.Name));
+
+            
+            CreateMap<Wallet, WalletToReturn>();
+
             //CreateMap<Photo, PhotoToReturnDto>();
         }
     }

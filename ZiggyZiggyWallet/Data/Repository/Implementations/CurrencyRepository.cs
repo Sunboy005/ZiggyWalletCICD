@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Data.EFCore;
 using ZiggyZiggyWallet.Data.Repository.Interfaces;
-using ZiggyZiggyWallet.DTOs.Currency;
 using ZiggyZiggyWallet.Models;
 
 namespace ZiggyZiggyWallet.Data.Repository.Implementations
@@ -35,9 +34,14 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
             return await SaveChanges();
         }
 
-        public Task<List<CurrencyToReturn>> GetCurrencyList(string address)
+        public async Task<Currency> GetCurrencyfromId(string currencyId)
         {
-            throw new System.NotImplementedException();
+            return await _contex.Currencies.Where(x => x.Id == currencyId).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Currency>> GetCurrencyList()
+        {
+            return await _contex.Currencies.ToListAsync();
         }
 
         public async Task<int> RowCount()
