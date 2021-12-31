@@ -44,9 +44,9 @@ namespace ZiggyZiggyWallet.Services.Implementations
            return await _curRepo.GetCurrencyList();
         }
 
-        public Task<Wallet> GetCurrencyById(string id)
+        public async Task<Currency> GetCurrencyById(string id)
         {
-            throw new NotImplementedException();
+            return await _curRepo.GetCurrencyfromId(id);
         }
     }
 }

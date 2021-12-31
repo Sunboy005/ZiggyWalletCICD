@@ -34,9 +34,9 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
             return await SaveChanges();
         }
 
-        public async Task<Currency> GetCurrencyfromId(string currencyId)
+        public async Task<Currency> GetCurrencyfromId(string id)
         {
-            return await _contex.Currencies.Where(x => x.Id == currencyId).FirstOrDefaultAsync();
+            return await _contex.Currencies.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<Currency>> GetCurrencyList()

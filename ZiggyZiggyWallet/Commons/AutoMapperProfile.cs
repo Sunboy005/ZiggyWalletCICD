@@ -33,7 +33,7 @@ namespace ZiggyZiggyWallet.Commons
                 .ForMember(dest => dest.ShortCode, opt => opt.MapFrom(u => u.ShortCode))
                 .ForMember(dest => dest.Abbrevation, opt => opt.MapFrom(u => u.Abbrevation));
                         
-            CreateMap<Wallet, WalletToReturn>();
+            CreateMap<Currency, CurrencyToReturn>();
 
         }
     }

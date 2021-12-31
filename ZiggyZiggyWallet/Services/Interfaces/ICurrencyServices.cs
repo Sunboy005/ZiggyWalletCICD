@@ -10,6 +10,6 @@ namespace ZiggyZiggyWallet.Services.Interfaces
     {
         Task<Tuple<bool, CurrencyToAdd>> AddCurrency(CurrencyToAdd model);
         Task<List<Currency>> GetAllCurrency();
-        Task<Wallet> GetCurrencyById(string id);
+        Task<Currency> GetCurrencyById(string id);
     }
 }

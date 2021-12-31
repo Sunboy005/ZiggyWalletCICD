@@ -70,7 +70,7 @@ namespace ZiggyZiggyWallet.Controllers
             return null;
         }
 
-        [HttpGet("get--currency/{id}")]
+        [HttpGet("get-currency/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCurrencyById(string id)
         {
