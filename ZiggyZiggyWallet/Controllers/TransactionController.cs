@@ -65,7 +65,7 @@ namespace ZiggyZiggyWallet.Controllers
         }
         
         
-        [HttpPost("send-Money")]
+        [HttpPost("admin-topup")]
         public async Task<IActionResult> AdminTopUpWallet(TransactionToAdd model, float amount, string currencyId, string wallAddr)
         {
             //check if user logged is the one making the changes - only works for system using Auth tokens
@@ -73,7 +73,7 @@ namespace ZiggyZiggyWallet.Controllers
             var currentUserRole = currentUser.FindFirst(ClaimTypes.Role).Value;
             if (!currentUserRole.Equals("Admin"))
             {
-                ModelState.AddModelError("Denied", $"You are not allowed to TopUp Users Wallet use the Card Features");
+                ModelState.AddModelError("Denied", $"You are not allowed to TopUp Users Wallet use the TopUp by Card Feature");
                 var result2 = Util.BuildResponse<string>(false, "Access denied!", ModelState, "");
                 return BadRequest(result2);
             }
@@ -85,13 +85,13 @@ namespace ZiggyZiggyWallet.Controllers
             
             var sCurrDetail = await _curServe.GetCurrencyById(currencyId);
 
-            var sendMoney = await _transServe.AdminTopUp(model, amount, currencyId, wallId);
-            if (sendMoney != null)
+            var topUp = await _transServe.AdminTopUp(model, amount, currencyId, wallId);
+            if (topUp != null)
             {
-                return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {sCurrDetail.ShortCode} has been topped up with {amount} in {sCurrDetail.Name}", null, "Money Sent Successfully"));
+                return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {sCurrDetail.ShortCode} has been topped up with {amount} in {sCurrDetail.Name}", null, "Wallet Topped Successfully"));
             }
             ModelState.AddModelError("Not found", $"{ wallDet.Name} Wallet TopUp failed.");
-            return NotFound(Util.BuildResponse<object>(false, "faied", ModelState, null));
+            return NotFound(Util.BuildResponse<object>(false, "failed", ModelState, null));
         }
     }
 }
