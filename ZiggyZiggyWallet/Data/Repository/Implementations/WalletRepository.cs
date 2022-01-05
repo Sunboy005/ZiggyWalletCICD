@@ -41,7 +41,7 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
 
         public async Task<Wallet> GetWalletByAddress(string address)
         {
-            return await _contex.Wallets.Where(x => x.Address == address).FirstAsync();
+            return await _contex.Wallets.Where(x => x.Address == address).FirstOrDefaultAsync();
         }
 
         public async Task<Wallet> GetWalletById(string id)

@@ -8,8 +8,9 @@ namespace ZiggyZiggyWallet.Data.Repository.Interfaces
 {
     public interface IWalletCurrencyRepository:ICRUDRepository
     {
-        Task<WalletCurrency> GetWalletCurrency(string walletId, string currencyId);
+        Task<WalletCurrency> GetWalletCurrencyDetails(string walletId, string currencyId);
         Task<WalletCurrency> GetMainCurrency(string walletId);
-        Task<List<WalletCurrency>> GetCurrenciesInAWallet(string walletId);
+        Task<List<WalletCurrency>> GetCurrenciesListInAWallet(string walletId);
+        Task<WalletCurrency> GetWalCurByCurrId(string currId);
     }
 }

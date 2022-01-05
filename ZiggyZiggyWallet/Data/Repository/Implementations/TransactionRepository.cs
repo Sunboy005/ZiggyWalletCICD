@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Data.EFCore;
 using ZiggyZiggyWallet.Data.Repository.Interfaces;
+using ZiggyZiggyWallet.DTOs.Transactions;
 using ZiggyZiggyWallet.Models;
 
 namespace ZiggyZiggyWallet.Data.Repository.Implementations
@@ -35,9 +36,9 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
             return await SaveChanges();
         }
 
-        public async Task<List<Tranx>> GetTransactionsByWallet(string address)
+        public async Task<List<Tranx>> GetTransactionsByWallet(string walletId)
         {
-            return  await _contex.Transactions.Where(x => x.WalletId == address).ToListAsync();
+            return  await _contex.Transactions.Where(x => x.SenderWalletId == walletId ||x.RecipientWalletId == walletId).ToListAsync();
         }
 
         public async Task<int> RowCount()

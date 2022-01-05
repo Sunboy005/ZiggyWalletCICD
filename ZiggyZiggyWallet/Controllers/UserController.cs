@@ -23,7 +23,8 @@ namespace ZiggyZiggyWallet.Controllers
         private readonly IMapper _mapper;
 
         public UserController(ILogger<UserController> logger,
-            UserManager<AppUser> userManager, IMapper mapper)
+                               UserManager<AppUser> userManager,
+                                IMapper mapper)
         {
             _logger = logger;
             _userMgr = userManager;
@@ -153,7 +154,7 @@ namespace ZiggyZiggyWallet.Controllers
 
         }
 
-        [HttpGet("get-user")]
+        [HttpGet("get-user/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
             // map data from db to dto to reshape it and remove null fields
@@ -182,33 +183,36 @@ namespace ZiggyZiggyWallet.Controllers
 
         }
 
-        //public async Task<IActionResult> GetUserByID(string userId)
-        //    {
-        //        // map data from db to dto to reshape it and remove null fields
-        //        var UserToReturn = new UserToReturn();
-        //        //var user = await _userService.GetUser(email);
-        //        var user = await _userMgr.FindByEmailAsync(userId);
-        //        if (user != null)
-        //        {
-        //            UserToReturn = new UserToReturn
-        //            {
-        //                Id = user.Id,
-        //                LastName = user.LastName,
-        //                FirstName = user.FirstName,
-        //                Email = user.Email,
-        //                PhoneNumber = user.PhoneNumber
-        //            };
 
-        //            var res = Util.BuildResponse(true, "User details", null, UserToReturn);
-        //            return Ok(res);
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("Notfound", $"There was no record found for user with User Id {user.Id}");
-        //            return NotFound(Util.BuildResponse<List<UserToReturn>>(false, "No result found!" , ModelState, null));
-        //        }
+        [HttpGet("get-user/{userId}")]
 
-        //    }
+        public async Task<IActionResult> GetUserByID(string userId)
+        {
+            // map data from db to dto to reshape it and remove null fields
+            var UserToReturn = new UserToReturn();
+            //var user = await _userService.GetUser(email);
+            var user = await _userMgr.FindByIdAsync(userId);
+            if (user != null)
+            {
+                UserToReturn = new UserToReturn
+                {
+                    Id = user.Id,
+                    LastName = user.LastName,
+                    FirstName = user.FirstName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber
+                };
+
+                var res = Util.BuildResponse(true, "User details", null, UserToReturn);
+                return Ok(res);
+            }
+            else
+            {
+                ModelState.AddModelError("Notfound", $"There was no record found for user with User Id {user.Id}");
+                return NotFound(Util.BuildResponse<List<UserToReturn>>(false, "No result found!", ModelState, null));
+            }
+
+        }
 
     }
 }

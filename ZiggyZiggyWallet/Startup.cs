@@ -80,12 +80,16 @@ namespace ZiggyZiggyWallet
              services.AddScoped<ITransactionsRepository, TransactionRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IWalletCurrencyRepository, WalletCurrencyRepository>();
+            services.AddScoped<ITransactionsRepository, TransactionRepository>();
 
             //AppServices
             services.AddScoped<IJWTServices, JWTServices>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IWalletServices, WalletServices>();
             services.AddScoped<ICurrencyServices, CurrencyServices>();
+            services.AddScoped<IWalletCurrencyServices, WalletCurrencyServices>();
+            services.AddScoped<ITransactionServices, TransactionServices>();
 
 
             //Other Services

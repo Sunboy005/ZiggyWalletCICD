@@ -6,6 +6,6 @@ namespace ZiggyZiggyWallet.Data.Repository.Interfaces
 {
     public interface ITransactionsRepository:ICRUDRepository
     {
-        Task<List<Tranx>> GetTransactionsByWallet(string address);
+        Task<List<Tranx>> GetTransactionsByWallet(string walletId);
     }
 }

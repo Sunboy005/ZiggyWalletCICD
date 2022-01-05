@@ -36,18 +36,23 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
             return await SaveChanges();
         }
 
-        public async Task<WalletCurrency> GetWalletCurrency(string walletId, string currencyId)
+        public async Task<WalletCurrency> GetWalletCurrencyDetails(string walletId, string currencyId)
         {
-            var result = await _contex.WalletCurrency.Include(x => x.Balance).FirstOrDefaultAsync(x => x.WalletId == walletId && x.CurrencyId == currencyId);
-            return result;
-        }
-         public async Task<WalletCurrency> GetMainCurrency(string walletId)
-        {
-            var result = await _contex.WalletCurrency.Include(x => x.IsMain).FirstOrDefaultAsync(x => x.WalletId == walletId && x.IsMain==true);
+            var result = await _contex.WalletCurrency.Where(x => x.WalletId == walletId && x.CurrencyId == currencyId).FirstOrDefaultAsync();
             return result;
         }
 
-        public async Task<List<WalletCurrency>> GetCurrenciesInAWallet(string walletId)
+        public async Task<WalletCurrency> GetWalCurByCurrId(string currId)
+        {
+            return await _contex.WalletCurrency.Where(x => x.CurrencyId == currId).FirstAsync();
+        }
+        public async Task<WalletCurrency> GetMainCurrency(string walletId)
+        {
+            var result = await _contex.WalletCurrency.Where(x => x.WalletId == walletId && x.IsMain==true).FirstOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<List<WalletCurrency>> GetCurrenciesListInAWallet(string walletId)
         {
            var currencyList= await _contex.WalletCurrency.Where(x => x.WalletId == walletId).ToListAsync();
         return currencyList;
