@@ -125,7 +125,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
                     var sCurrToNoob = await _walletCurServe.ConvertCurrencyToCurrency(rCurrId, sCurr);
 
                     //amount To Add
-                    amtToAdd = sCurrToNoob.Item2;
+                    amtToAdd = sCurrToNoob.Item2*amount;
 
                     //Perform the Transaction
                     sWallCurrDet.Balance -= amount;
@@ -227,7 +227,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
             {
                 return null;
             }
-            wallCurDetails.Balance = amount;
+            wallCurDetails.Balance += amount;
             var first = await _walletCurRepo.Edit(wallCurDetails);
 
             var tranxToAdd = _mapper.Map<Tranx>(model);

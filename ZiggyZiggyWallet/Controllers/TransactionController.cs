@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
+using ZiggyZiggyWallet.DTOs.Systems;
 using ZiggyZiggyWallet.DTOs.Transactions;
 using ZiggyZiggyWallet.Models;
 using ZiggyZiggyWallet.Services.Interfaces;
@@ -90,7 +91,7 @@ namespace ZiggyZiggyWallet.Controllers
             var topUp = await _transServe.TopUp(model, amount, currencyId, wallId, toppedBy);
             if (topUp != null)
             {
-                return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {sCurrDetail.ShortCode} has been topped up with {amount} in {sCurrDetail.Name}", null, "Wallet Topped Successfully"));
+                return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {sCurrDetail.ShortCode} has been topped up with {amount} in {sCurrDetail.Name}by {toppedBy}", null, "Wallet Topped Successfully"));
             }
             ModelState.AddModelError("Not found", $"{ wallDet.Name} Wallet TopUp failed.");
             return NotFound(Util.BuildResponse<object>(false, "failed", ModelState, null));
@@ -140,20 +141,76 @@ namespace ZiggyZiggyWallet.Controllers
                                 if (dummyBalance < amount)
                                 {
 
-
                                     var topUp = await _transServe.TopUp(model, amount, currencyId, wallId, toppedBy);
                                     if (topUp != null)
                                     {
-                                        return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {CurrDet.ShortCode} has been topped up with {amount} in {CurrDet.Name}", null, "Wallet Topped Successfully"));
+                                        return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {CurrDet.ShortCode} has been topped up with {amount} in {CurrDet.Name} by {toppedBy}", null, "Wallet Topped Successfully"));
                                     }
                                 }
+                                ModelState.AddModelError("Low Card Balance", $"{ wallDet.Name} Wallet TopUp failed.");
                             }
                         }
+
                     }
                 }
             }
-            ModelState.AddModelError("Not found", $"{ wallDet.Name} Wallet TopUp failed.");
+            ModelState.AddModelError("Card detail Error", $"{ wallDet.Name} Wallet TopUp failed.");
             return NotFound(Util.BuildResponse<object>(false, "failed", ModelState, null));
+        }
+
+
+
+        [HttpPost("transactions-list")]
+        [AllowAnonymous]
+        public async Task<IActionResult> TransactionList(int page, int perPage, string wallAddr)
+        {
+            var wallDet = await _wallServe.GetWalletByAddress(wallAddr);
+            var wallId = wallDet.Id;
+            var transList = await _transServe.WalletTransactionHistory(wallId);
+            if (transList == null)
+            {
+                ModelState.AddModelError("Not found", "No result found for transaction");
+                return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
+            }
+            var pagedList = PagedList<Tranx>.Paginate(transList, page, perPage);
+
+
+            // map result
+            var listOfTranxToReturn = new List<TransactionToReturn>();
+            foreach (var transaction in transList)
+            {
+                var transactionToReturn = _mapper.Map<TransactionToReturn>(transaction);
+                listOfTranxToReturn.Add(transactionToReturn);
+            }
+            var res = new PaginatedList<TransactionToReturn>
+            {
+                MetaData = pagedList.MetaData,
+                Data = listOfTranxToReturn
+            };
+            return Ok(Util.BuildResponse<object>(true, "List of users wallets", null, listOfTranxToReturn));
+        }
+
+        [HttpGet("get-tranx-list/{wallAdd}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetTranxList(string wallAdd)
+        {
+            var wallets = await _transServe.WalletTransactionHistory(wallAdd);
+            if (wallets == null)
+            {
+                ModelState.AddModelError("Not found", "No result found for wallets");
+                return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
+            }
+
+            // map result
+            var listOfWalletsToReturn = new List<TransactionToReturn>();
+            foreach (var wallet in wallets)
+            {
+                var walletToReturn = _mapper.Map<TransactionToReturn>(wallet);
+                listOfWalletsToReturn.Add(walletToReturn);
+
+            }
+
+            return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, $"List of transactions performed by /on wallet {wallAdd}", null, listOfWalletsToReturn));
         }
     }
 }
