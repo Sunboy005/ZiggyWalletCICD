@@ -160,7 +160,8 @@ namespace ZiggyZiggyWallet.Controllers
 
 
 
-        [HttpPost("transactions-list")]
+        rytuyuky
+        [HttpPost("transactions-list/{wallAddr}")]
         [AllowAnonymous]
         public async Task<IActionResult> TransactionList(int page, int perPage, string wallAddr)
         {
@@ -190,27 +191,27 @@ namespace ZiggyZiggyWallet.Controllers
             return Ok(Util.BuildResponse<object>(true, "List of users wallets", null, listOfTranxToReturn));
         }
 
-        [HttpGet("get-tranx-list/{wallAdd}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetTranxList(string wallAdd)
-        {
-            var wallets = await _transServe.WalletTransactionHistory(wallAdd);
-            if (wallets == null)
-            {
-                ModelState.AddModelError("Not found", "No result found for wallets");
-                return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
-            }
+        //[HttpGet("get-tranx-list/{wallAdd}")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> GetTranxList(string wallAdd)
+        //{
+        //    var wallets = await _transServe.WalletTransactionHistory(wallAdd);
+        //    if (wallets == null)
+        //    {
+        //        ModelState.AddModelError("Not found", "No result found for wallets");
+        //        return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
+        //    }
 
-            // map result
-            var listOfWalletsToReturn = new List<TransactionToReturn>();
-            foreach (var wallet in wallets)
-            {
-                var walletToReturn = _mapper.Map<TransactionToReturn>(wallet);
-                listOfWalletsToReturn.Add(walletToReturn);
+        //    // map result
+        //    var listOfTranxToReturn = new List<TransactionToReturn>();
+        //    foreach (var transaction in wallets)
+        //    {
+        //        var walletToReturn = _mapper.Map<TransactionToReturn>(transaction);
+        //        listOfTranxToReturn.Add(walletToReturn);
 
-            }
+        //    }
 
-            return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, $"List of transactions performed by /on wallet {wallAdd}", null, listOfWalletsToReturn));
-        }
+        //    return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, $"List of transactions performed by /on wallet {wallAdd}", null, listOfTranxToReturn));
+        //}
     }
 }
