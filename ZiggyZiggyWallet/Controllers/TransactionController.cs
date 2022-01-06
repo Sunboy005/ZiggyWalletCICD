@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
 using ZiggyZiggyWallet.DTOs.Transactions;
-using ZiggyZiggyWallet.DTOs.WalletCurrency;
 using ZiggyZiggyWallet.Models;
 using ZiggyZiggyWallet.Services.Interfaces;
 
@@ -27,6 +28,7 @@ namespace ZiggyZiggyWallet.Controllers
             _curServe = curServe;
         }
 
+        [Authorize(Roles = "Noob, Elite")]
         [HttpPost("send-Money")]
         public async Task<IActionResult> TransferMoney(TransactionToAdd model, string sWalletAddress, string rWalletAddress, string sCurrency, float amount, string description, string userId)
         {
@@ -63,8 +65,8 @@ namespace ZiggyZiggyWallet.Controllers
             ModelState.AddModelError("Not found", $"{ sWalletDetail.Name} Balance is Low, Please check with smaller amount");
             return NotFound(Util.BuildResponse<object>(false, "Low Balance", ModelState, null));
         }
-        
-        
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("admin-topup")]
         public async Task<IActionResult> AdminTopUpWallet(TransactionToAdd model, float amount, string currencyId, string wallAddr)
         {
@@ -77,18 +79,78 @@ namespace ZiggyZiggyWallet.Controllers
                 var result2 = Util.BuildResponse<string>(false, "Access denied!", ModelState, "");
                 return BadRequest(result2);
             }
+            string toppedBy = "Admin";
 
-           
             var wallDet = await _wallServe.GetWalletByAddress(wallAddr);
-           
+
             var wallId = wallDet.Id;
-            
+
             var sCurrDetail = await _curServe.GetCurrencyById(currencyId);
 
-            var topUp = await _transServe.AdminTopUp(model, amount, currencyId, wallId);
+            var topUp = await _transServe.TopUp(model, amount, currencyId, wallId, toppedBy);
             if (topUp != null)
             {
                 return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {sCurrDetail.ShortCode} has been topped up with {amount} in {sCurrDetail.Name}", null, "Wallet Topped Successfully"));
+            }
+            ModelState.AddModelError("Not found", $"{ wallDet.Name} Wallet TopUp failed.");
+            return NotFound(Util.BuildResponse<object>(false, "failed", ModelState, null));
+        }
+
+
+        [Authorize(Roles = "Noob,Elite")]
+        [HttpPost("card-topup")]
+        public async Task<IActionResult> CardTopUpWallet(TransactionToAdd model, float amount, string currencyId, string wallAddr, string cardNo, int ccv, int yearOfExp, string pin, string userId)
+        {
+            //check if user logged is the one making the changes - only works for system using Auth tokens
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (!currentUserId.Equals(userId))
+            {
+                ModelState.AddModelError("Denied", $"You are not allowed to TopUp Users Wallet use the TopUp by Card Feature");
+                var result2 = Util.BuildResponse<string>(false, "Access denied!", ModelState, "");
+                return BadRequest(result2);
+            }
+
+
+            var wallDet = await _wallServe.GetWalletByAddress(wallAddr);
+            var wallId = wallDet.Id;
+            var CurrDet = await _curServe.GetCurrencyById(currencyId);
+            var CurrAbb = CurrDet.Abbrevation;
+
+            string toppedBy = "Card";
+            //Verify The cardDetails
+            //DummyCard
+            var dummyCardNo = "12345678901234";
+            List<string> dummyCardType = new List<string> { "usd", "aud", "jpy", "mxn" };
+            var dummyCcv = 123;
+            var dummyYearOfExp = 2024;
+            var dummyCardPin = "1234";
+            var dummyBalance = 4500;
+            if (dummyCardNo == cardNo)
+            {
+                if (dummyCardType.Contains(CurrAbb))
+                {
+
+                    if (dummyCcv == ccv)
+                    {
+                        if (dummyYearOfExp == yearOfExp)
+                        {
+                            if (dummyCardPin == pin)
+                            {
+                                if (dummyBalance < amount)
+                                {
+
+
+                                    var topUp = await _transServe.TopUp(model, amount, currencyId, wallId, toppedBy);
+                                    if (topUp != null)
+                                    {
+                                        return Ok(Util.BuildResponse<string>(true, $"{wallDet.Address}  {CurrDet.ShortCode} has been topped up with {amount} in {CurrDet.Name}", null, "Wallet Topped Successfully"));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             ModelState.AddModelError("Not found", $"{ wallDet.Name} Wallet TopUp failed.");
             return NotFound(Util.BuildResponse<object>(false, "failed", ModelState, null));

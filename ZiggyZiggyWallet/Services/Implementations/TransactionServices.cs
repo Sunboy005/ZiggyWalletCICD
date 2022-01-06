@@ -216,7 +216,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
             return new Tuple<bool, TransactionToAdd>(res, model);
         }
 
-        public async Task<TransactionToAdd> AdminTopUp(TransactionToAdd model, float amount, string currencyId, string wallId)
+        public async Task<TransactionToAdd> TopUp(TransactionToAdd model, float amount, string currencyId, string wallId, string toppedBy)
         {
             //Get The walletDetails
             var wallCurDetails = await _walletCurRepo.GetWalletCurrencyDetails(wallId, currencyId);
@@ -237,7 +237,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
             tranxToAdd.SenderCurrency = CurrName;
             tranxToAdd.RecieverCurrency = CurrName;
             tranxToAdd.RecipientWalletId = wallId;
-            tranxToAdd.SenderWalletId = "Admin";
+            tranxToAdd.SenderWalletId = toppedBy;
             //Status of the Account
             if (first)
             {
@@ -273,90 +273,15 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
         //    return new Tuple<bool, TransactionToAdd>(res, model);
         //}
-        public async Task<TransactionToAdd> CardTopUp(TransactionToAdd model, float amount, string currencyId, string wallId, string cardNo, int ccv, int yearOfExp, string pin)
-        {
-            //Get The walletCurrency Details
-            var wallCurDetails = await _walletCurRepo.GetWalletCurrencyDetails(wallId, currencyId);
-            var CurrDet = await _curRepo.GetCurrencyfromId(currencyId);
-            var CurrAbb = CurrDet.Abbrevation;
-            var CurrName = CurrDet.Name;
-
-            if (wallCurDetails == null)
-            {
-                return null;
-            }
-
-            wallCurDetails.Balance = amount;
-            //Verify The cardDetails
-            //DummyCard
-            var dummyCardNo = "12345678901234";
-            List<string> dummyCardType = new List<string> { "usd", "aud", "jpy","mxn" };
-            var dummyCcv = 123;
-            var dummyYearOfExp = 2024;
-            var dummyCardPin = "1234";
-            var dummyBalance = 4500;
-            if (dummyCardNo == cardNo)
-            {
-                if (dummyCardType.Contains(CurrAbb))
-                {
-
-                    if (dummyCcv == ccv)
-                    {
-                        if (dummyYearOfExp == yearOfExp)
-                        {
-                            if (dummyCardPin == pin)
-                            {
-                                if (dummyBalance < amount)
-                                {
-                                    
-                                    wallCurDetails.Balance = amount;
-                                    var first = await _walletCurRepo.Edit(wallCurDetails);
-
-                                    var tranxToAdd = _mapper.Map<Tranx>(model);
-                                    tranxToAdd.AmountSent = amount;
-                                    tranxToAdd.AmountReceived = amount;
-                                    tranxToAdd.Description = "TopUp From Admin";
-                                    tranxToAdd.SenderCurrency = CurrName;
-                                    tranxToAdd.RecieverCurrency = CurrName;
-                                    tranxToAdd.RecipientWalletId = wallId;
-                                    tranxToAdd.SenderWalletId = "Admin";
-                                    //Status of the Account
-                                    if (first)
-                                    {
-                                        tranxToAdd.Status = "Successful";
-                                    }
-                                    if ((!first))
-                                    {
-
-                                        tranxToAdd.Status = "Failed";
-                                    }
-                                    tranxToAdd.TranxType = "TopUp";
-
-                                    await _tranxRepo.Add(tranxToAdd);
-
-                                    return model;
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                return null;
-            }
-            return null;
-        }
-        public Task<TransactionToAdd> Withdrawal(string sWId, string sCurr, string rWId, float amount, string description, string bankName, string accountNo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<Tranx>> WalletTransactionHistory(string wallId)
-        {
-            return await _tranxRepo.GetTransactionsByWallet(wallId);
-
-        }
+    public Task<TransactionToAdd> Withdrawal(string sWId, string sCurr, string rWId, float amount, string description, string bankName, string accountNo)
+    {
+        throw new NotImplementedException();
     }
+
+    public async Task<List<Tranx>> WalletTransactionHistory(string wallId)
+    {
+        return await _tranxRepo.GetTransactionsByWallet(wallId);
+
+    }
+}
 }
