@@ -278,7 +278,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
         throw new NotImplementedException();
     }
 
-    public async Task<List<Tranx>> WalletTransactionHistory(string wallId)
+    public async Task<List<TransactionToReturn>> WalletTransactionHistory(string wallId)
     {
         return await _tranxRepo.GetTransactionsByWallet(wallId);
 

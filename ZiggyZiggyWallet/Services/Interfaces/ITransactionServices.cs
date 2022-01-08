@@ -12,6 +12,6 @@ namespace ZiggyZiggyWallet.Services.Interfaces
         Task<Tuple<bool, TransactionToAdd>> SendMoney(TransactionToAdd model, string sWId, string sCurr, string rWId, float amount, string description);
         Task<TransactionToAdd> Withdrawal(string sWId, string sCurr, string rWId, float amount, string description, string bankName, string accountNo);
         Task<TransactionToAdd> TopUp(TransactionToAdd model, float amount, string currencyId, string wallId, string toppedBy);
-       Task<List<Tranx>> WalletTransactionHistory(string wallId);
+       Task<List<TransactionToReturn>> WalletTransactionHistory(string wallId);
     }
 }

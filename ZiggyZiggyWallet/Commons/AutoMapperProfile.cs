@@ -48,7 +48,15 @@ namespace ZiggyZiggyWallet.Commons
                .ForMember(dest => dest.SenderCurrency, opt => opt.MapFrom(u => u.SenderCurrency))
                .ForMember(dest => dest.Description, opt => opt.MapFrom(u => u.Description));
 
-            CreateMap<TransactionToReturn, Tranx>();
+            CreateMap<TransactionToReturn, Tranx>()
+               .ForMember(dest => dest.TranxType, opt => opt.MapFrom(u => u.TranxType))
+               .ForMember(dest => dest.RecipientWalletId, opt => opt.MapFrom(u => u.RecipientWalletId))
+               .ForMember(dest => dest.AmountReceived, opt => opt.MapFrom(u => u.AmountReceived))
+               .ForMember(dest => dest.AmountSent, opt => opt.MapFrom(u => u.AmountSent))
+               .ForMember(dest => dest.SenderWalletId, opt => opt.MapFrom(u => u.SenderWalletId))
+               .ForMember(dest => dest.RecieverCurrency, opt => opt.MapFrom(u => u.RecieverCurrency))
+               .ForMember(dest => dest.SenderCurrency, opt => opt.MapFrom(u => u.SenderCurrency))
+               .ForMember(dest => dest.Description, opt => opt.MapFrom(u => u.Description));
 
             //WalletCurrency Mapping
             CreateMap<WalletCurrencyToAdd, WalletCurrency>()
@@ -57,7 +65,7 @@ namespace ZiggyZiggyWallet.Commons
                .ForMember(dest => dest.IsMain, opt => opt.MapFrom(u => u.IsMain))
                .ForMember(dest => dest.WalletId, opt => opt.MapFrom(u => u.WalletId));
                
-            CreateMap<TransactionToReturn, Tranx>();
+            CreateMap<WalletCurrencyToReturn, WalletCurrency>();
                 
 
         }

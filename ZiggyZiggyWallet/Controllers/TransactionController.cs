@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
+using ZiggyZiggyWallet.DTOs;
 using ZiggyZiggyWallet.DTOs.Systems;
 using ZiggyZiggyWallet.DTOs.Transactions;
 using ZiggyZiggyWallet.Models;
@@ -160,58 +161,31 @@ namespace ZiggyZiggyWallet.Controllers
 
 
 
-        rytuyuky
+        
         [HttpPost("transactions-list/{wallAddr}")]
         [AllowAnonymous]
-        public async Task<IActionResult> TransactionList(int page, int perPage, string wallAddr)
+        public async Task<IActionResult> GetUserWalletList(string wallAddr)
         {
             var wallDet = await _wallServe.GetWalletByAddress(wallAddr);
             var wallId = wallDet.Id;
-            var transList = await _transServe.WalletTransactionHistory(wallId);
-            if (transList == null)
+            var tranz = await _transServe.WalletTransactionHistory(wallId);
+            if (tranz == null)
             {
-                ModelState.AddModelError("Not found", "No result found for transaction");
+                ModelState.AddModelError("Not found", "No result found for wallets");
                 return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
             }
-            var pagedList = PagedList<Tranx>.Paginate(transList, page, perPage);
-
 
             // map result
-            var listOfTranxToReturn = new List<TransactionToReturn>();
-            foreach (var transaction in transList)
+            var listOfTransToReturn = new List<TransactionToReturn>();
+            foreach (var trans in tranz)
             {
-                var transactionToReturn = _mapper.Map<TransactionToReturn>(transaction);
-                listOfTranxToReturn.Add(transactionToReturn);
+                var transToReturn = _mapper.Map<TransactionToReturn>(trans);
+                listOfTransToReturn.Add(transToReturn);
+
             }
-            var res = new PaginatedList<TransactionToReturn>
-            {
-                MetaData = pagedList.MetaData,
-                Data = listOfTranxToReturn
-            };
-            return Ok(Util.BuildResponse<object>(true, "List of users wallets", null, listOfTranxToReturn));
+
+            return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, "List of user's photos", null, listOfTransToReturn));
         }
 
-        //[HttpGet("get-tranx-list/{wallAdd}")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> GetTranxList(string wallAdd)
-        //{
-        //    var wallets = await _transServe.WalletTransactionHistory(wallAdd);
-        //    if (wallets == null)
-        //    {
-        //        ModelState.AddModelError("Not found", "No result found for wallets");
-        //        return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
-        //    }
-
-        //    // map result
-        //    var listOfTranxToReturn = new List<TransactionToReturn>();
-        //    foreach (var transaction in wallets)
-        //    {
-        //        var walletToReturn = _mapper.Map<TransactionToReturn>(transaction);
-        //        listOfTranxToReturn.Add(walletToReturn);
-
-        //    }
-
-        //    return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, $"List of transactions performed by /on wallet {wallAdd}", null, listOfTranxToReturn));
-        //}
     }
 }
