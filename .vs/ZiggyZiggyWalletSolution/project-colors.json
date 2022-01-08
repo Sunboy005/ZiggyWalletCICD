@@ -5,7 +5,12 @@
       "ProjectGuid": "b12b5815-7f58-407c-bad2-defe5bd5580b",
       "DisplayName": "ZiggyZiggyWallet",
       "ColorIndex": 0
+    },
+    "e8d656aa-e4b3-4a8a-b60f-d82d43396cee": {
+      "ProjectGuid": "e8d656aa-e4b3-4a8a-b60f-d82d43396cee",
+      "DisplayName": "ZiiggyWallet.Auth.Tests",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
