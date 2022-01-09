@@ -13,6 +13,7 @@ using ZiggyZiggyWallet.Services.Interfaces;
 
 namespace ZiggyZiggyWallet.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionController : ControllerBase
@@ -168,10 +169,11 @@ namespace ZiggyZiggyWallet.Controllers
         {
             var wallDet = await _wallServe.GetWalletByAddress(wallAddr);
             var wallId = wallDet.Id;
+            var wallName= wallDet.Name;
             var tranz = await _transServe.WalletTransactionHistory(wallId);
             if (tranz == null)
             {
-                ModelState.AddModelError("Not found", "No result found for wallets");
+                ModelState.AddModelError("Not found", $"No result found for {wallName}'s wallet transactions");
                 return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
             }
 
@@ -184,7 +186,7 @@ namespace ZiggyZiggyWallet.Controllers
 
             }
 
-            return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, "List of user's photos", null, listOfTransToReturn));
+            return Ok(Util.BuildResponse<List<TransactionToReturn>>(true, $"List of {wallName}'s wallet transactions", null, listOfTransToReturn));
         }
 
     }

@@ -16,13 +16,12 @@ namespace ZiggyZiggyWallet.Services.Implementations
     {
         private readonly IWalletRepository _walletRepo;
         private readonly UserManager<AppUser> _userMng;
-        private readonly IMapper _mapper;
 
-        public WalletServices(IWalletRepository walletRepo, UserManager<AppUser> userMng, IMapper mapper)
+        public WalletServices(IWalletRepository walletRepo, UserManager<AppUser> userMng)
         {
             _walletRepo = walletRepo;
             _userMng = userMng;
-            _mapper = mapper;
+
         }
         public async Task<Tuple<bool, WalletToAdd>> AddAWallet(WalletToAdd model, string userId)
         {
@@ -56,13 +55,13 @@ namespace ZiggyZiggyWallet.Services.Implementations
             var res = await _walletRepo.GetWalletByAddress(address);
             return res;
         }
-        
+
         public async Task<Wallet> GetWalletbyId(string id)
         {
             var res = await _walletRepo.GetWalletById(id);
             return res;
         }
-        
+
         public async Task<Wallet> GetMainWallet(string userId)
         {
             var res = await _walletRepo.GetWalletsByUserId(userId);
@@ -74,6 +73,9 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
             return null;
         }
-       
+        public async Task<bool> DeleteAWallet(string walletId)
+        {
+            return await _walletRepo.Delete(walletId);
+        }
     }
 }

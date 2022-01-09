@@ -38,7 +38,7 @@ namespace ZiggyZiggyWallet.Data.Repository.Implementations
 
         public async Task<List<Tranx>> GetTransactionsByWallet(string walletId)
         {
-            return  await _contex.Transactions.Where(x => x.SenderWalletId == walletId ||x.RecipientWalletId == walletId).ToListAsync();
+            return  await _contex.Transactions.Where(x => x.SenderWalletId == walletId || x.RecipientWalletId == walletId).ToListAsync();
         }
 
         public async Task<int> RowCount()

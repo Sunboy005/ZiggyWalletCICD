@@ -45,7 +45,7 @@ namespace ZiggyZiggyWallet.Controllers
             var walletCount = walletList.Count();
             var currentRole = currentUser.FindFirst(ClaimTypes.Role).Value;
 
-            if (currentRole == "Noob" && walletCount >= 1)
+            if (currentRole == "Noob" && walletCount == 1)
             {
                 ModelState.AddModelError("Denied", $"You are not permitted to Add More than one wallet, Contact Admin to Upgrade");
                 var result2 = Util.BuildResponse<string>(false, "Access denied!", ModelState, "");

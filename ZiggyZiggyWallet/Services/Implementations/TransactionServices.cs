@@ -125,7 +125,7 @@ namespace ZiggyZiggyWallet.Services.Implementations
                     var sCurrToNoob = await _walletCurServe.ConvertCurrencyToCurrency(rCurrId, sCurr);
 
                     //amount To Add
-                    amtToAdd = sCurrToNoob.Item2*amount;
+                    amtToAdd = sCurrToNoob.Item2 * amount;
 
                     //Perform the Transaction
                     sWallCurrDet.Balance -= amount;
@@ -147,22 +147,20 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
 
                     var createCurr = await _walletCurRepo.Add(walletToCreate);
-                    if (createCurr != null)
-                    {
-                        //Cet Newly Created WalletCurrency Details
-                        var rWallCurrDetails = await _walletCurRepo.GetWalletCurrencyDetails(rWId, sCurr);
 
-                        //amount To Add
-                        amtToAdd = amount;
+                    //Cet Newly Created WalletCurrency Details
+                    var rWallCurrDetails = await _walletCurRepo.GetWalletCurrencyDetails(rWId, sCurr);
 
-                        //Perform the Transaction
-                        sWallCurrDet.Balance -= amount;
-                        rWallCurrDetails.Balance += amtToAdd;
+                    //amount To Add
+                    amtToAdd = amount;
 
-                        //Update the database
-                        first = await _walletCurRepo.Edit(sCurrDet);
-                        second = await _walletCurRepo.Edit(rWallCurrDetails);
-                    }
+                    //Perform the Transaction
+                    sWallCurrDet.Balance -= amount;
+                    rWallCurrDetails.Balance += amtToAdd;
+
+                    //Update the database
+                    first = await _walletCurRepo.Edit(sCurrDet);
+                    second = await _walletCurRepo.Edit(rWallCurrDetails);
                 }
             }
             else
@@ -273,15 +271,15 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
         //    return new Tuple<bool, TransactionToAdd>(res, model);
         //}
-    public Task<TransactionToAdd> Withdrawal(string sWId, string sCurr, string rWId, float amount, string description, string bankName, string accountNo)
-    {
-        throw new NotImplementedException();
-    }
+        public Task<TransactionToAdd> Withdrawal(string sWId, string sCurr, string rWId, float amount, string description, string bankName, string accountNo)
+        {
+            throw new NotImplementedException();
+        }
 
-    public async Task<List<Tranx>> WalletTransactionHistory(string wallId)
-    {
-        return await _tranxRepo.GetTransactionsByWallet(wallId);
+        public async Task<List<Tranx>> WalletTransactionHistory(string wallId)
+        {
+            return await _tranxRepo.GetTransactionsByWallet(wallId);
 
+        }
     }
-}
 }

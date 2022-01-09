@@ -14,5 +14,6 @@ namespace ZiggyZiggyWallet.Services.Interfaces
         Task<Wallet> GetWalletByAddress(string address);
         Task<Wallet> GetWalletbyId(string id);
         Task<List<Wallet>> GetAllWalletLists();
+        Task<bool> DeleteAWallet(string walletId);
     }
 }

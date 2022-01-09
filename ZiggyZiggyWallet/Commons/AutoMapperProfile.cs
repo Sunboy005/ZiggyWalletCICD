@@ -57,7 +57,7 @@ namespace ZiggyZiggyWallet.Commons
                .ForMember(dest => dest.IsMain, opt => opt.MapFrom(u => u.IsMain))
                .ForMember(dest => dest.WalletId, opt => opt.MapFrom(u => u.WalletId));
                
-            CreateMap<WalletCurrencyToReturn, WalletCurrency>();
+            CreateMap<WalletCurrency, WalletCurrencyToReturn>();
                 
 
         }
