@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
 using ZiggyZiggyWallet.DTOs.Systems;
 using ZiggyZiggyWallet.DTOs.Users;
 using ZiggyZiggyWallet.Models;
+using ZiggyZiggyWallet.Services.Interfaces;
 
 namespace ZiggyZiggyWallet.Controllers
 {
@@ -20,15 +23,21 @@ namespace ZiggyZiggyWallet.Controllers
 
         private readonly ILogger<UserController> _logger;
         private readonly UserManager<AppUser> _userMgr;
+        private readonly IWalletServices _wallServe;
+        private readonly IWalletCurrencyServices _wallCurServe;
         private readonly IMapper _mapper;
 
         public UserController(ILogger<UserController> logger,
                                UserManager<AppUser> userManager,
-                                IMapper mapper)
+                                IMapper mapper,
+                                IWalletCurrencyServices wallCurrServe,
+                                IWalletServices wallCurServe)
         {
             _logger = logger;
             _userMgr = userManager;
             _mapper = mapper;
+            _wallServe = wallCurServe;
+            _wallCurServe = wallCurrServe;
         }
 
 
@@ -214,5 +223,67 @@ namespace ZiggyZiggyWallet.Controllers
 
         }
 
+        //[Authorize(Roles = "Admin")]
+
+        [HttpPut("downgrade")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpgradeUser(string userId, string roleToAdd)
+        {
+
+            var user = await _userMgr.FindByIdAsync(userId);
+            if (user == null)
+            {
+                ModelState.AddModelError("NotFound", $"User with id: {userId} was not found");
+                return NotFound(Util.BuildResponse<object>(false, "User not found!", ModelState, null));
+            }
+            var currentRoles = await _userMgr.GetRolesAsync(user);
+
+            if (currentRoles.Contains(roleToAdd))
+            {
+                ModelState.AddModelError("NotFound", $"User with has a the Role {roleToAdd}");
+                return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
+            }
+            if (currentRoles.Contains("Admin"))
+            {
+                ModelState.AddModelError("NotFound", $"Admin cannot be assigned with either Noob or Elite Roles {roleToAdd}");
+                return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
+            }
+
+            var roleList = new List<string>();
+            if (roleToAdd == "Noob")
+            {
+                //Remove the Role
+                await _userMgr.RemoveFromRolesAsync(user, currentRoles);
+                await _userMgr.AddToRoleAsync(user, "Elite");
+                currentRoles = await _userMgr.GetRolesAsync(user);
+                foreach (var role in currentRoles)
+                {
+                    roleList.Add(role);
+                }
+            }
+            else
+            {
+                var wallet = await _wallServe.GetMainWallet(userId);
+                var walletId = wallet.Id;
+                //Check for Currency
+                var wallMerge = await _wallCurServe.MergeWallets(walletId);
+                if (wallMerge == true)
+                {
+                    //Update the User's Role
+
+                    //Remove the Role
+                    await _userMgr.RemoveFromRolesAsync(user, currentRoles);
+                    await _userMgr.AddToRoleAsync(user, "Noob");
+                    currentRoles = await _userMgr.GetRolesAsync(user);
+                }
+
+
+                return NotFound(Util.BuildResponse<object>(false, "User not found!", null, roleList));
+
+            }
+            ModelState.AddModelError("NotFound", $"User Role failed to Update");
+            return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
+
+        }
     }
 }

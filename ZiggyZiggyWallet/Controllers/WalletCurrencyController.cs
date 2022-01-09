@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
 using ZiggyZiggyWallet.DTOs;
@@ -21,18 +22,16 @@ namespace ZiggyZiggyWallet.Controllers
         private readonly IWalletCurrencyServices _walletCurrServe;
         private readonly IWalletServices _walletServe;
         private readonly ICurrencyServices _currServe;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppUser> _roleManager;
+        private readonly UserManager<AppUser> _userMgr;
 
 
-        public WalletCurrencyController(ICurrencyServices currServe, IWalletCurrencyServices walletCurrServe, IWalletServices walletServe, IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppUser> roleManager)
+        public WalletCurrencyController(ICurrencyServices currServe, IWalletCurrencyServices walletCurrServe, IWalletServices walletServe, IMapper mapper, UserManager<AppUser> userMgr)
         {
             _mapper = mapper;
             _walletCurrServe = walletCurrServe;
             _walletServe = walletServe;
             _currServe = currServe;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _userMgr = userMgr;
         }
         // GET: api/<WalletCurrencyController>
         [Authorize]
@@ -135,32 +134,6 @@ namespace ZiggyZiggyWallet.Controllers
 
 
             return Ok(Util.BuildResponse<string>(true, $"{walletName} has been updated ", null, currRem.Item2));
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("downgradeUser")]
-        public async Task<IActionResult> UserDownGrade(string userId)
-        {
-            //Check if Wallet Exist
-            var userDetail = await _userManager.FindByIdAsync(userId);
-            if (userDetail == null)
-            {
-                ModelState.AddModelError("Not found", $"No User with userId {userId}");
-                return NotFound(Util.BuildResponse<object>(false, "Result is empty", ModelState, null));
-            }
-
-            var wallet= await _walletServe.GetMainWallet(userId);
-            var walletId= wallet.Id;
-            //Check for Currency
-            var wallMerge = await _walletCurrServe.MergeWallets(walletId);
-            if (wallMerge == true)
-            {
-                return Ok(Util.BuildResponse<string>(true, $"Wallet has been updated Successfully", null, "Wallet Converted"));
-            }
-            //var userRole=await _roleManager.FindByIdAsync(userId);
-            //await _roleManager.UpdateAsync(userRole.);
-
-            return Ok(Util.BuildResponse<string>(false, $"Wallet Update Failed!", null, ""));
         }
 
         // GET: api/<WalletCurrencyController>
