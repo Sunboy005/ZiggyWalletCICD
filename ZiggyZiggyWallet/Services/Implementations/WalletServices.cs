@@ -73,9 +73,9 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
             return null;
         }
-        public async Task<bool> DeleteAWallet(string walletId)
+        public async Task<bool> DeleteAWallet(Wallet wallet)
         {
-            return await _walletRepo.Delete(walletId);
+            return await _walletRepo.Delete(wallet);
         }
     }
 }

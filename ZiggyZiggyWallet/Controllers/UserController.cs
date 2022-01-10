@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
+using ZiggyZiggyWallet.Data.EFCore;
 using ZiggyZiggyWallet.DTOs.Systems;
 using ZiggyZiggyWallet.DTOs.Users;
 using ZiggyZiggyWallet.Models;
@@ -23,18 +25,21 @@ namespace ZiggyZiggyWallet.Controllers
 
         private readonly ILogger<UserController> _logger;
         private readonly UserManager<AppUser> _userMgr;
+        private readonly RoleManager<IdentityRole> _roleMgr;
         private readonly IWalletServices _wallServe;
         private readonly IWalletCurrencyServices _wallCurServe;
         private readonly IMapper _mapper;
 
         public UserController(ILogger<UserController> logger,
                                UserManager<AppUser> userManager,
+                               RoleManager<IdentityRole> roleMgr,
                                 IMapper mapper,
                                 IWalletCurrencyServices wallCurrServe,
                                 IWalletServices wallCurServe)
         {
             _logger = logger;
             _userMgr = userManager;
+            _roleMgr = roleMgr;
             _mapper = mapper;
             _wallServe = wallCurServe;
             _wallCurServe = wallCurrServe;
@@ -225,7 +230,7 @@ namespace ZiggyZiggyWallet.Controllers
 
         //[Authorize(Roles = "Admin")]
 
-        [HttpPut("downgrade")]
+        [HttpPut("update-user-type")]
         [AllowAnonymous]
         public async Task<IActionResult> UpgradeUser(string userId, string roleToAdd)
         {
@@ -236,11 +241,23 @@ namespace ZiggyZiggyWallet.Controllers
                 ModelState.AddModelError("NotFound", $"User with id: {userId} was not found");
                 return NotFound(Util.BuildResponse<object>(false, "User not found!", ModelState, null));
             }
+
+            var rolesAvail=new List<string>();
+            var rolesAvailable = _roleMgr.Roles.ToList();
+            foreach (var roleavail in rolesAvailable)
+            {
+                rolesAvail.Add(roleavail.Name);
+            }
+            if (!rolesAvail.Contains(roleToAdd))
+            {
+                ModelState.AddModelError("NotFound", $"The inputed role {roleToAdd} is not available for use");
+                return NotFound(Util.BuildResponse<object>(false, "Role not found!", ModelState, null));
+            }
             var currentRoles = await _userMgr.GetRolesAsync(user);
 
             if (currentRoles.Contains(roleToAdd))
             {
-                ModelState.AddModelError("NotFound", $"User with has a the Role {roleToAdd}");
+                ModelState.AddModelError("NotFound", $"User is a/an {roleToAdd} user");
                 return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
             }
             if (currentRoles.Contains("Admin"))
@@ -250,38 +267,28 @@ namespace ZiggyZiggyWallet.Controllers
             }
 
             var roleList = new List<string>();
-            if (roleToAdd == "Noob")
+            if (roleToAdd == "Elite")
             {
                 //Remove the Role
                 await _userMgr.RemoveFromRolesAsync(user, currentRoles);
                 await _userMgr.AddToRoleAsync(user, "Elite");
-                currentRoles = await _userMgr.GetRolesAsync(user);
-                foreach (var role in currentRoles)
-                {
-                    roleList.Add(role);
-                }
+                return NotFound(Util.BuildResponse<object>(false, "Wallet Merge Error!", null, $"User has being Upgraded to { roleToAdd}"));
             }
             else
             {
                 var wallet = await _wallServe.GetMainWallet(userId);
                 var walletId = wallet.Id;
                 //Check for Currency
-                var wallMerge = await _wallCurServe.MergeWallets(walletId);
+                var wallMerge = await _wallCurServe.MergeWallets(userId);
                 if (wallMerge == true)
                 {
-                    //Update the User's Role
-
                     //Remove the Role
                     await _userMgr.RemoveFromRolesAsync(user, currentRoles);
                     await _userMgr.AddToRoleAsync(user, "Noob");
-                    currentRoles = await _userMgr.GetRolesAsync(user);
+                    return Ok(Util.BuildResponse<object>(true, "Wallet Merge Error!", null, $"User has being downgraded to { roleToAdd}"));
                 }
-
-
-                return NotFound(Util.BuildResponse<object>(false, "User not found!", null, roleList));
-
             }
-            ModelState.AddModelError("NotFound", $"User Role failed to Update");
+            ModelState.AddModelError("NotFound", $"Wallet Merge Failed");
             return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
 
         }

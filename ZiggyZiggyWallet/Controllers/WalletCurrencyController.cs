@@ -135,7 +135,7 @@ namespace ZiggyZiggyWallet.Controllers
 
             return Ok(Util.BuildResponse<string>(true, $"{walletName} has been updated ", null, currRem.Item2));
         }
-
+        //ac797970-1db2-4540-9a13-349db317adcd
         // GET: api/<WalletCurrencyController>
         [Authorize(Roles ="Admin,Noob,Elite")]
         [HttpDelete("delete-currencies")]

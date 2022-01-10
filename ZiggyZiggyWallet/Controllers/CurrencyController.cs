@@ -28,7 +28,7 @@ namespace ZiggyZiggyWallet.Controllers
             _mapper = mapper;
         }
 
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         [HttpPost("add-currency")]
         public async Task<ActionResult<Currency>> AddCurrency(CurrencyToAdd model)
         {
@@ -69,9 +69,9 @@ namespace ZiggyZiggyWallet.Controllers
             }
             return null;
         }
-
+        [Authorize]
         [HttpGet("get-currency/{id}")]
-        [AllowAnonymous]
+        
         public async Task<IActionResult> GetCurrencyById(string id)
         {
             var currency = await _curServe.GetCurrencyById(id);
@@ -85,6 +85,8 @@ namespace ZiggyZiggyWallet.Controllers
             return Ok(Util.BuildResponse<CurrencyToReturn>(true, $"Currencies with id of {id}", null, CurrencyToReturn));
         }
 
+
+        [Authorize]
         [HttpGet("get-all-Currencies")]
         public async Task<IActionResult> GetAllCurrencies(int page, int perPage)
         {

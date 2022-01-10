@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
 using ZiggyZiggyWallet.Data.Repository.Interfaces;
-using ZiggyZiggyWallet.DTOs;
 using ZiggyZiggyWallet.DTOs.WalletCurrency;
 using ZiggyZiggyWallet.Models;
 using ZiggyZiggyWallet.Services.Interfaces;
@@ -196,7 +195,12 @@ namespace ZiggyZiggyWallet.Services.Implementations
         public async Task<List<WalletCurrency>> ListAllCurrencies(string wallId)
         {
 
-            return await _walletCurRepo.GetCurrenciesListInAWallet(wallId);
+            var res = await _walletCurRepo.GetCurrenciesListInAWallet(wallId);
+            if (res.Count >= 1)
+            {
+                return res;
+            }
+            return null;
         }
 
         public async Task<bool> MergeWallets(string userId)
@@ -204,50 +208,73 @@ namespace ZiggyZiggyWallet.Services.Implementations
             var res = false;
             //Get Main wallet
             var mainWallet = await _walletServe.GetMainWallet(userId);
+            var mainWalletId = mainWallet.Id;
             var mainWalletMainCurrency = await GetMainCurrency(mainWallet.Id);
 
             //List the wallets in the Account
 
-            var wallets = await _walletServe.GetAllWalletLists();
+            var wallets = await _walletServe.GetAllUsersWalletsList(userId);
             for (int i = 0; i < wallets.Count; i++)
             {
-                //Each wallet converts the currency list to Main
-                var currencyList = await ListAllCurrencies(wallets[i].Id);
-                for (int j = 0; i < currencyList.Count; j++)
                 {
-                    //Remove each Currency After Conversion
-                    await RemoveACurrency(currencyList[i].CurrencyId, wallets[i].Id);
+                    //Each wallet converts the currency list to Main
+                    var currencyList = await ListAllCurrencies(wallets[i].Id);
+                    if (currencyList != null)
+                    {
+                        for (int j = 0; j < currencyList.Count; j++)
+                        {
+                            if (currencyList.Count >= 2)
+                            {
+                                //Remove each Currency After Conversion
+                                await RemoveACurrency(currencyList[j].CurrencyId, wallets[i].Id);
+                            }
+                            break;
+                        }
+                    }
                 }
             }
             foreach (var wallet in wallets)
             {
-                if (mainWallet.Id != wallet.Id)
+                string walletId = wallet.Id;
+                if (mainWallet.Id != walletId)
                 {
                     var mainCurrencyList = await ListAllCurrencies(wallet.Id);
-                    //Get a list of all the currencies value in the main Wallet main Currency
-                    for (int k = 0; k < mainCurrencyList.Count; k++)
+                    if (mainCurrencyList != null)
                     {
-                        var mainCurbal = mainCurrencyList[k].Balance;
-                        var mainCurId = mainCurrencyList[k].Id;
-                        var convMain = await ConvertCurrencyToCurrency(mainWalletMainCurrency.Id, mainCurrencyList[k].Id);
-                        //Add it to the main wallet main currency
-                        mainCurrencyList[k].Balance -= mainCurbal;
-                        mainWalletMainCurrency.Balance += convMain.Item2;
-                        //Update the MainCurrMainWall & Main currency
-                        var mainCurrMainWallUpdate = await _walletCurRepo.Edit(mainCurrencyList[k]);
-                        var mainCurrUpdate = await _walletCurRepo.Edit(mainWalletMainCurrency);
-                        //Delete The currency
-                        if (mainCurrMainWallUpdate && mainCurrUpdate)
+                        //Get a list of all the currencies value in the main Wallet main Currency
+                        for (int k = 0; k < mainCurrencyList.Count; k++)
                         {
-                           var delCur= await _walletCurRepo.Delete(mainCurrencyList[k]);
-
-
-                            //Delete the Wallet
-                            var delWall=await _walletServe.DeleteAWallet(wallet.Id);
-                            if (delCur && delWall)
+                            var mainCurbal = mainCurrencyList[k].Balance;
+                            var mainCurId = mainCurrencyList[k].Id;
+                            var convMain = await ConvertCurrencyToCurrency(mainWalletMainCurrency.Id, mainCurrencyList[k].Id);
+                            //Add it to the main wallet main currency
+                            mainCurrencyList[k].Balance -= mainCurbal;
+                            mainWalletMainCurrency.Balance += convMain.Item2;
+                            //Update the MainCurrMainWall & Main currency
+                            var mainCurrMainWallUpdate = await _walletCurRepo.Edit(mainCurrencyList[k]);
+                            var mainCurrUpdate = await _walletCurRepo.Edit(mainWalletMainCurrency);
+                            //Delete The currency
+                            if (mainCurrMainWallUpdate && mainCurrUpdate)
                             {
-                                res = true;
+                                var delCur = await _walletCurRepo.Delete(mainCurrencyList[k]);
+
+
+                                //Delete the Wallet
+                                var delWall = await _walletServe.DeleteAWallet(wallet);
+                                if (delCur && delWall)
+                                {
+                                    res = true;
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        //Delete the Wallet
+                        var delWall = await _walletServe.DeleteAWallet(wallet);
+                        if (delWall)
+                        {
+                            res = true;
                         }
                     }
                 }
