@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using ZiggyZiggyWallet.Commons;
-using ZiggyZiggyWallet.Data.EFCore;
 using ZiggyZiggyWallet.DTOs.Systems;
 using ZiggyZiggyWallet.DTOs.Users;
 using ZiggyZiggyWallet.Models;
@@ -22,26 +18,21 @@ namespace ZiggyZiggyWallet.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
-        private readonly ILogger<UserController> _logger;
         private readonly UserManager<AppUser> _userMgr;
         private readonly RoleManager<IdentityRole> _roleMgr;
-        private readonly IWalletServices _wallServe;
         private readonly IWalletCurrencyServices _wallCurServe;
         private readonly IMapper _mapper;
 
-        public UserController(ILogger<UserController> logger,
+        public UserController(
                                UserManager<AppUser> userManager,
                                RoleManager<IdentityRole> roleMgr,
                                 IMapper mapper,
-                                IWalletCurrencyServices wallCurrServe,
-                                IWalletServices wallCurServe)
+                                IWalletCurrencyServices wallCurrServe)
         {
-            _logger = logger;
+           
             _userMgr = userManager;
             _roleMgr = roleMgr;
             _mapper = mapper;
-            _wallServe = wallCurServe;
             _wallCurServe = wallCurrServe;
         }
 
@@ -90,7 +81,7 @@ namespace ZiggyZiggyWallet.Controllers
             // you can generate confirm email token here
             // but ensure AddDefaultTokenProviders() have been enabled in startup else there won't be token generated
             var token = await _userMgr.GenerateEmailConfirmationTokenAsync(user);
-            var url = Url.Action("ConfrimEmail", "User", new { Email = user.Email, Token = token }, Request.Scheme);  // this is the url to send
+            var url = Url.Action("ConfrimEmail", "User", new { email = user.Email, _token = token }, Request.Scheme);  // this is the url to send
 
             // next thing TODO here is to send an email to this new user to the email provided using a notification service you should build
 
@@ -103,7 +94,7 @@ namespace ZiggyZiggyWallet.Controllers
 
         }
 
-
+        [Authorize]
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfrimEmail(string email, string token)
         {
@@ -135,6 +126,7 @@ namespace ZiggyZiggyWallet.Controllers
 
 
         [HttpGet("get-users")]
+        [AllowAnonymous]
         public IActionResult GetUsers(int page, int perPage)
         {
             // map data from db to dto to reshape it and remove null fields
@@ -169,15 +161,15 @@ namespace ZiggyZiggyWallet.Controllers
         }
 
         [HttpGet("get-user/{email}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
             // map data from db to dto to reshape it and remove null fields
-            var UserToReturn = new UserToReturn();
-            //var user = await _userService.GetUser(email);
+
             var user = await _userMgr.FindByEmailAsync(email);
             if (user != null)
             {
-                UserToReturn = new UserToReturn
+                var userToReturn = new UserToReturn
                 {
                     Id = user.Id,
                     LastName = user.LastName,
@@ -186,7 +178,7 @@ namespace ZiggyZiggyWallet.Controllers
                     PhoneNumber = user.PhoneNumber
                 };
 
-                var res = Util.BuildResponse(true, "User details", null, UserToReturn);
+                var res = Util.BuildResponse(true, "User details", null, userToReturn);
                 return Ok(res);
             }
             else
@@ -199,16 +191,15 @@ namespace ZiggyZiggyWallet.Controllers
 
 
         [HttpGet("get-user/{userId}")]
-
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserByID(string userId)
         {
             // map data from db to dto to reshape it and remove null fields
-            var UserToReturn = new UserToReturn();
-            //var user = await _userService.GetUser(email);
+
             var user = await _userMgr.FindByIdAsync(userId);
             if (user != null)
             {
-                UserToReturn = new UserToReturn
+                var userToReturn = new UserToReturn
                 {
                     Id = user.Id,
                     LastName = user.LastName,
@@ -217,7 +208,7 @@ namespace ZiggyZiggyWallet.Controllers
                     PhoneNumber = user.PhoneNumber
                 };
 
-                var res = Util.BuildResponse(true, "User details", null, UserToReturn);
+                var res = Util.BuildResponse(true, "User details", null, userToReturn);
                 return Ok(res);
             }
             else
@@ -228,13 +219,11 @@ namespace ZiggyZiggyWallet.Controllers
 
         }
 
-        //[Authorize(Roles = "Admin")]
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("update-user-type")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpgradeUser(string userId, string roleToAdd)
         {
-
+            //Check If User exist
             var user = await _userMgr.FindByIdAsync(userId);
             if (user == null)
             {
@@ -242,7 +231,7 @@ namespace ZiggyZiggyWallet.Controllers
                 return NotFound(Util.BuildResponse<object>(false, "User not found!", ModelState, null));
             }
 
-            var rolesAvail=new List<string>();
+            var rolesAvail = new List<string>();
             var rolesAvailable = _roleMgr.Roles.ToList();
             foreach (var roleavail in rolesAvailable)
             {
@@ -266,7 +255,6 @@ namespace ZiggyZiggyWallet.Controllers
                 return NotFound(Util.BuildResponse<object>(false, "User role not Updated!", ModelState, null));
             }
 
-            var roleList = new List<string>();
             if (roleToAdd == "Elite")
             {
                 //Remove the Role
@@ -276,14 +264,14 @@ namespace ZiggyZiggyWallet.Controllers
             }
             else
             {
-                var wallet = await _wallServe.GetMainWallet(userId);
-                var walletId = wallet.Id;
-                //Check for Currency
+                //Perform Merging of Currencies and wallets
                 var wallMerge = await _wallCurServe.MergeWallets(userId);
                 if (wallMerge == true)
                 {
                     //Remove the Role
                     await _userMgr.RemoveFromRolesAsync(user, currentRoles);
+
+                    //Add a new role 
                     await _userMgr.AddToRoleAsync(user, "Noob");
                     return Ok(Util.BuildResponse<object>(true, "Wallet Merge Error!", null, $"User has being downgraded to { roleToAdd}"));
                 }
