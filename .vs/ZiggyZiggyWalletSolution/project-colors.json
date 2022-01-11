@@ -10,7 +10,22 @@
       "ProjectGuid": "e8d656aa-e4b3-4a8a-b60f-d82d43396cee",
       "DisplayName": "ZiiggyWallet.Auth.Tests",
       "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "caf82f9f-a5f2-4480-aa6f-c87f005db446": {
+      "ProjectGuid": "caf82f9f-a5f2-4480-aa6f-c87f005db446",
+      "DisplayName": "ZiggyWallet.Test",
+      "ColorIndex": 2
+    },
+    "e9e88e6b-1a08-4456-a63d-3dd49c106d9c": {
+      "ProjectGuid": "e9e88e6b-1a08-4456-a63d-3dd49c106d9c",
+      "DisplayName": "ZiggyZiggyTest",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 4
 }
