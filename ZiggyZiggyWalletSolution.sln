@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZiggyZiggyWallet", "ZiggyZi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZiggyWallet.Test", "ZiggyWallet.Test\ZiggyWallet.Test.csproj", "{CAF82F9F-A5F2-4480-AA6F-C87F005DB446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZiggyZiggyTest", "ZiggyZiggyTest\ZiggyZiggyTest.csproj", "{E9E88E6B-1A08-4456-A63D-3DD49C106D9C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{CAF82F9F-A5F2-4480-AA6F-C87F005DB446}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAF82F9F-A5F2-4480-AA6F-C87F005DB446}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAF82F9F-A5F2-4480-AA6F-C87F005DB446}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9E88E6B-1A08-4456-A63D-3DD49C106D9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9E88E6B-1A08-4456-A63D-3DD49C106D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9E88E6B-1A08-4456-A63D-3DD49C106D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9E88E6B-1A08-4456-A63D-3DD49C106D9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

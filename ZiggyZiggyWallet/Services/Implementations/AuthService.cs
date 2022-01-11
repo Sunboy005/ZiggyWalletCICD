@@ -26,11 +26,11 @@ namespace ZiggyZiggyWallet.Services.Implementations
 
             var res = await _signinMgr.PasswordSignInAsync(user, password, rememberMe, false);
 
-            if (!res.Succeeded)
+            if (user == null || res == null || !res.Succeeded)
             {
                 return new LoginCred { status = false };
             }
-
+            
             // get jwt token
             var userRoles = await _userMgr.GetRolesAsync(user);
             var token = _jwtService.GenerateToken(user, userRoles.ToList());
@@ -41,3 +41,4 @@ namespace ZiggyZiggyWallet.Services.Implementations
         }
     }
 }
+
