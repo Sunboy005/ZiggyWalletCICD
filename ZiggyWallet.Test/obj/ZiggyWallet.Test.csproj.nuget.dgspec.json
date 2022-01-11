@@ -50,15 +50,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
-<<<<<<< HEAD
-            "NUnit": {
-              "target": "Package",
-              "version": "[3.13.2, )"
-            },
-            "NUnit3TestAdapter": {
-              "target": "Package",
-              "version": "[4.2.0, )"
-=======
             "Microsoft.AspNetCore.TestHost": {
               "target": "Package",
               "version": "[3.1.21, )"
@@ -92,7 +83,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.4.3, )"
->>>>>>> testing
             }
           },
           "imports": [
