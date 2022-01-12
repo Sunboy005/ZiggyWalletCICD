@@ -25,7 +25,7 @@ namespace ZiggyZiggyWallet.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(Loginin model)
+        public async Task<IActionResult> Login(Login model)
         {
 
             var user = await _userMgr.FindByEmailAsync(model.email);

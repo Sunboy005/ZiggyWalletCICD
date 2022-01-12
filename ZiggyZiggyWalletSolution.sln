@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZiggyZiggyWallet", "ZiggyZiggyWallet\ZiggyZiggyWallet.csproj", "{B12B5815-7F58-407C-BAD2-DEFE5BD5580B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZiggyWallet.Tests", "ZiggyWallet.Testing\ZiggyWallet.Tests.csproj", "{0A5BC529-4422-479F-9442-94CEDC2AC9CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B12B5815-7F58-407C-BAD2-DEFE5BD5580B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12B5815-7F58-407C-BAD2-DEFE5BD5580B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B12B5815-7F58-407C-BAD2-DEFE5BD5580B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A5BC529-4422-479F-9442-94CEDC2AC9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A5BC529-4422-479F-9442-94CEDC2AC9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A5BC529-4422-479F-9442-94CEDC2AC9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A5BC529-4422-479F-9442-94CEDC2AC9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
