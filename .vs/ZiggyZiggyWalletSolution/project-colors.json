@@ -25,7 +25,12 @@
       "ProjectGuid": "e9e88e6b-1a08-4456-a63d-3dd49c106d9c",
       "DisplayName": "ZiggyZiggyTest",
       "ColorIndex": 3
+    },
+    "0a5bc529-4422-479f-9442-94cedc2ac9ce": {
+      "ProjectGuid": "0a5bc529-4422-479f-9442-94cedc2ac9ce",
+      "DisplayName": "ZiggyWallet.Tests",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 5
 }

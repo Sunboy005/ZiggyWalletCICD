@@ -1,0 +1,12 @@
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignoreker
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+README.md
