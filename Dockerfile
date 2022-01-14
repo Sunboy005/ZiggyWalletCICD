@@ -47,5 +47,7 @@ COPY --from=build-env /app/out .
 
 
 
-ENV ASPNETCORE_URL=http://*:$PORT
-ENTRYPOINT ["dotnet","ZiggyZiggyWallet.dll"]
+#ENV ASPNETCORE_URL=http://*:$PORT
+#ENTRYPOINT ["dotnet","ZiggyZiggyWallet.dll"]
+
+CMD ASPNETCORE_URLS=http://*:PORT dotnet ziggywallet.Core.dll
