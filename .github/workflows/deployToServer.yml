@@ -1,4 +1,4 @@
-name: .NET
+name: ZiggyWallet_CICD_Heroku
 
 on:
   push:
