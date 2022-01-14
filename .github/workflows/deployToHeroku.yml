@@ -17,7 +17,7 @@ jobs:
       env: 
         HEROKU_SECRET: ${{ secrets.HEROKU_SECRET }} 
         APP_NAME: ${{ 'ziggywallet2' }}
-      run: 
+      run: |
         docker build -t ziggywallet2 .
         docker tag ziggywallet2 registry.heroku.com/$APP_NAME/web
         docker login --username=_ --password=$HEROKU_SECRET registry.heroku.com
