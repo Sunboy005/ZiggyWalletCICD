@@ -13,15 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check out codes
-      working-directory: ./ZiggyZiggyWallet
+      working-directory: ./
       env: 
-        HEROKU_SECRET: ${{ secrets.HEROKU_SECRET }} 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} 
         APP_NAME: ${{ 'ziggywallet2' }}
       run: |
         docker build -t ziggywallet2 .
         docker tag ziggywallet2 registry.heroku.com/$APP_NAME/web
-        docker login --username=_ --password=$HEROKU_SECRET registry.heroku.com
+        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
         heroku container:push web -a $APP_NAME
         heroku container:released web -a $APP_NAME
-        
-       
