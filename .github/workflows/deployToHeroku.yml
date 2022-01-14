@@ -12,8 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Check out code
-      working-directory: ./
+    - name: Check out codes
+      working-directory: ./ZiggyZiggyWallet
       env: 
         HEROKU_SECRET: ${{ secrets.HEROKU_SECRET }} 
         APP_NAME: ${{ 'ziggywallet2' }}
