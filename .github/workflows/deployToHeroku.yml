@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check out codes
-      working-directory: ./
+      working-directory: ./ZiggyZiggyWallet/
       env: 
-        HEROKU_SECRET: ${{ Secrets.HEROKU_SECRET }} 
+        HEROKU_SECRET: ${{ secrets.HEROKU_SECRET }} 
         APP_NAME: ${{ 'ziggywallet2' }}
       run: 
         docker build -t ziggywallet2 .
