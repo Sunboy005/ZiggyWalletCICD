@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 name: ZiggyWallet_CICD_Heroku
-=======
-name: ziggywallet_CICD_Heroku
->>>>>>> 19ec361220acfae373fd8f0f5cb93dac097e85dc
-
 on:
   push:
     branches: [ main ]
