@@ -12,6 +12,7 @@ using ZiggyZiggyWallet.Services.Interfaces;
 
 namespace ZiggyZiggyWallet.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase

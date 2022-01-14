@@ -57,7 +57,7 @@ namespace ZiggyZiggyWallet
             }));
             //DBContext
             services.AddDbContextPool<ZiggyDBContext>(
-               options => options.UseSqlServer(Configuration.GetConnectionString("Default"))
+               options => options.UseSqlite(Configuration.GetConnectionString("Default"))
             );
 
            
@@ -106,9 +106,11 @@ namespace ZiggyZiggyWallet
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+               
+
             }
 
-            app.UseRouting();
+            app.UseRouting();  
 
             app.UseAuthentication();
 
@@ -121,12 +123,12 @@ namespace ZiggyZiggyWallet
                 endpoints.MapControllers();
             });
 
-            seeder.SeedMe().Wait();
+             seeder.SeedMe().Wait();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ziggy Wallet V2"));
-
+            app.UseHttpsRedirection();
         }
     }
 }

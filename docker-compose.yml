@@ -1,0 +1,18 @@
+version: '2'
+services:
+  mssql:
+  image: ziggywallet/sqlserver:latest
+  container_name: ziggysqlserver
+  ports: 
+    - "1433:1433"
+  environment:
+  SA_PASSWORD: "SuNDaY2@34"
+  ACCEPT_EULA: "Y"
+  MSSQL_PID: Developer
+webapi:
+  image: ziggywallet/webapi:latest
+  depends_on:
+    - mssql
+  container_name: ziggywallet
+  ports:
+    - "80:3000" 
