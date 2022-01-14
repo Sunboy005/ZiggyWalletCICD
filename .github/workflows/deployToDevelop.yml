@@ -14,12 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Restore dependencies
-      working-directory: ./ZiggyWalletCICD/
       run: dotnet restore
     - name: Build
-      working-directory: ./ZiggyWalletCICD/
       run: dotnet build --no-restore    
     - name: Test
-      working-directory: ./ZiggyWalletCICD/
       run: dotnet test --no-build --verbosity normal
     
