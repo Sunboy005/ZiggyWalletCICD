@@ -20,6 +20,6 @@ jobs:
       run: 
         docker build -t ziggywallet2 .
         docker tag ziggywallet2 registry.heroku.com/$APP_NAME/web
-        docker login  --password=$HEROKU_SECRET registry.heroku.com
+        heroku login --username=_ --password=$HEROKU_SECRET registry.heroku.com
         heroku container:push web -a $APP_NAME
         heroku container:released web -a $APP_NAME
