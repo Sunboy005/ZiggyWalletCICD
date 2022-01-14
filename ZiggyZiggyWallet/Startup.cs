@@ -105,8 +105,7 @@ namespace ZiggyZiggyWallet
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-               
+                app.UseDeveloperExceptionPage();     
 
             }
 
