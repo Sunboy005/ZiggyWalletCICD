@@ -11,5 +11,5 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build /app/publish .
 #ENTRYPOINT ["dotnet", "DockerDemo009.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet UserRoleMgtApi.Core.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet ZiggyZiggyWallet.Core.dll
 
